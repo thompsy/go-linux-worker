@@ -2,7 +2,6 @@ package backend
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"io"
 	"os/exec"
@@ -14,9 +13,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/thompsy/worker-api-service/lib"
 )
-
-// ErrUnknownJob indicates that the jobID was unknown.
-var ErrUnknownJob = errors.New("unknown job")
 
 // A Worker is a map guarded by a RWMutex which contains an entry for each
 // successfully started job.
@@ -156,7 +152,7 @@ func (w *Worker) getJob(jobID uuid.UUID) (*job, error) {
 	job, ok := w.jobs[jobID]
 	w.RUnlock()
 	if !ok {
-		return nil, ErrUnknownJob
+		return nil, lib.ErrNotFound
 	}
 	return job, nil
 }
