@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "github.com/thompsy/worker-api-service/lib/protobuf";
+
+service WorkerService {
+  rpc Submit (Command) returns (JobId) {}
+  rpc Stop (JobId) returns (Empty) {}
+  rpc Status (JobId) returns (StatusResponse) {}
+  rpc GetLogs (JobId) returns (stream Log) {}
+}
+
+message Command {
+  string command = 1;
+}
+
+message JobId {
+  string id = 1;
+}
+
+message Empty {}
+
+message StatusResponse {
+  enum StatusType {
+    RUNNING = 0;
+    COMPLETED = 1;
+    STOPPED = 2;
+  }
+  StatusType status = 1;
+  int32 exitCode = 2;
+}
+
+message Log {
+  string logLine = 1;
+}
