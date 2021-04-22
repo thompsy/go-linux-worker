@@ -1,5 +1,7 @@
+LINT_TARGETS=./cmd/... ./lib/... ./testing/...
+
 .PHONY: all
-all: clean protoc build lint test
+all: clean certs protoc build lint test
 
 .PHONY: protoc
 protoc:
@@ -7,10 +9,14 @@ protoc:
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
 		./lib/protobuf/api.proto
 
+# todo add linux and race back here
 .PHONY: build
 build: protoc
 	go fmt ./...
-	go build ./...
+	go build -race -o ./bin/server cmd/server/main.go
+	go build -race -o ./bin/client cmd/client/main.go
+
+
 
 .PHONY: install-tools
 install-tools:
@@ -19,15 +25,19 @@ install-tools:
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ./bin v1.39.0
 
+
 .PHONY: lint
 lint:
-	golangci-lint run ./...
+	golangci-lint run $(LINT_TARGETS)
+
+certs:
+	./scripts/generate-mtls-certs.sh
 
 .PHONY: test
-test:
+test: certs
 	go test -race -timeout 30s ./...
 
 .PHONY: clean
 clean:
-	rm -rf bin lib/protobuf/*.go
+	rm -rf certs bin lib/protobuf/*.go
 
