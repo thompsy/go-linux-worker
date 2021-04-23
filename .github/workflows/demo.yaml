@@ -16,6 +16,5 @@ jobs:
         run: make install-tools
       - name: Build service
         run: make build
-      - name: Run tests
-        run: make test
+
 
