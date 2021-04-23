@@ -2,7 +2,7 @@
 
 The Worker-API Service executes arbitrary Linux commands on behalf of clients. The design of the service can be seen in the [design document](DESIGN.md).
 
-Currently, the service consists of a library with functions to submit a job, query the status of a job, stop a job and fetch the logs from a job. Future releases will provide a `gRPC` client and server built on top of this library.
+Currently, the service consists of a library with functions to submit a job, query the status of a job, stop a job and fetch the logs from a job along with client and server implementations.
 
 The code has been developed and tested on Go v1.15.
 
@@ -16,3 +16,15 @@ Once the required tools are installed the following command can be used to build
 
     make all
 
+Alternatively, a Docker image can be built and run using the following command:
+
+    make docker-build
+
+## Running
+The server can be run using the built Docker image by running:
+
+    make docker-run
+
+The client can be run using:
+
+    ./bin/client
