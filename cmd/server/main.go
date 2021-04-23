@@ -18,7 +18,7 @@ func main() {
 		CaCertFile:     "./certs/ca.crt",
 		ServerCertFile: "./certs/server.crt",
 		ServerKeyFile:  "./certs/server.key",
-		Address:        "127.0.0.1:8080",
+		Address:        ":8080",
 	}
 
 	log.Infof("Starting server. pid: %d", os.Getpid())

@@ -16,8 +16,6 @@ build: protoc
 	go build -race -o ./bin/server cmd/server/main.go
 	go build -race -o ./bin/client cmd/client/main.go
 
-
-
 .PHONY: install-tools
 install-tools:
 	go get -u google.golang.org/grpc
@@ -25,6 +23,13 @@ install-tools:
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b ./bin v1.39.0
 
+.PHONY: docker-build
+docker-build:
+	docker build -t worker-api-server .
+
+.PHONY: docker-run
+docker-run:
+	docker run -p 8080:8080 worker-api-server:latest
 
 .PHONY: lint
 lint:
