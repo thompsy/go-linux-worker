@@ -1,6 +1,8 @@
 # Go Linux Worker
 
-The Go Linux Worker Service executes arbitrary Linux commands on behalf of clients. Processes are isolated to a basic Apline Linux container using Linux `namespaces` and resource constraints are provided using `cgroups`. The primary purpose of this project was to allow me to experiment with `namespaces` and `cgroups`. to better understand how containers work under the hood.
+The Go Linux Worker Service executes arbitrary Linux commands on behalf of clients. Processes are isolated to a basic Apline Linux container using Linux `namespaces` and resource constraints are provided using `cgroups`. 
+
+The primary purpose of this project was to allow me to experiment with `namespaces` and `cgroups` to better understand how containers work under the hood.
 
 The design of the service can be seen in the [design document](DESIGN.md).
 
