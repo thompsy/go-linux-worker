@@ -95,6 +95,12 @@ The server will use a basic Role Based Access Control scheme to limit access to 
 
 In order to determine the identity of clients an email will be used as the `CommonName` of the client certificates. Since these certificates will be signed by a trusted Certificate Authority we can have confidence that this email correctly identifies the client. This email will also be used to determine group ownership. When a new job is started the email of the client is stored with the job to prevent other clients accessing it.
 
+### Isolation
+In order to prevent clients submitting jobs which could interfere with the host or with other jobs e.g. `rm -rf` each job will be run within a container environment using Linux `namespaces`. Each job will have its own PID, mount and networking namespace along with a minimal, in-memory filesystem based on Alpine Linux. This prevents jobs having visibility of the host system and allows the running of destructive commands without compromising the host.
+
+### Resource Constraints
+The server will maintain a `cgroup` with restrictions on the CPU, memory and disk IO into which all jobs will be added. This prevents malicious or malfunctioning clients from monopolising the resources of the host.
+
 ### Build Process
 A simple `Makefile` will be provided to allow for easy and reproducible builds. This will include the generation of all required certificates along with static analysis of the code.
 
@@ -106,11 +112,7 @@ If the system was to be productionized, there are a number of additional feature
 
 * persisting the output of jobs. As noted above, the output of a job is stored in memory. When the server exits all data is lost. A production system would likely want to persist this data to an external data store such as PostgreSQL.
 
-* preventing unsafe jobs. This implementation provides no safety checking on commands submitted. This means that clients can submit jobs that perform destructive operations on the server e.g. `rm -rf`. A production system should either perform some safety checking on user input or provide an isolated environment e.g. using `cgroups` and `namespaces` directly or an existing Docker image.
-
 * limiting the run-time of jobs. Jobs submitted currently have no timeout and may therefore run indefinitely or until stopped by the user e.g. using the `sleep` command. In a production system it would be sensible for the server to proactively kill jobs after a given period.
-
-* resource limiting. In its current state the server imposes no resource limits on jobs. If clients were to submit many resource intensive jobs this could exhaust the hosts resources. To improve on this, resource limits could be enabled using `cgroups` and adding jobs to a resource constrained group.
 
 * rate limiting the submission of jobs. This implementation makes no attempt to limit the number of jobs submitted either globally or on a per-client basis. A malicious or negligent client could use this fact to effect a denial of service attack against the server.
 
