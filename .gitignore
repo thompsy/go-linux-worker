@@ -1,5 +1,5 @@
 .srl
 certs/
-internal/protobuf/*.go
+lib/protobuf/*.go
 bin/
 .*
