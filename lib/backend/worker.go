@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"io"
 	"os/exec"
-	"strings"
 	"sync"
-	//"syscall"
+	"syscall"
 
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
@@ -47,16 +46,19 @@ func NewWorker() *Worker {
 
 // Submit runs the given command in a goroutine and returns the ID of the job.
 func (w *Worker) Submit(cmdLine string) (uuid.UUID, error) {
-	cmdParts := strings.Split(cmdLine, " ")
-	if len(cmdParts) < 1 {
+	if len(cmdLine) == 0 {
 		return uuid.Nil, fmt.Errorf("no command supplied")
 	}
 
-	cmd := exec.Command(cmdParts[0], cmdParts[1:]...)
+	cmd := exec.Command("/proc/self/exe", append([]string{"exec"}, cmdLine)...)
 	buffer := newBroadcastBuffer()
 	cmd.Stdout = buffer
 	cmd.Stderr = buffer
-	//cmd.SysProcAttr = &syscall.SysProcAttr{Pdeathsig: syscall.SIGKILL}
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		Pdeathsig:    syscall.SIGKILL,
+		Cloneflags:   syscall.CLONE_NEWUTS | syscall.CLONE_NEWPID | syscall.CLONE_NEWNS | syscall.CLONE_NEWNET,
+		Unshareflags: syscall.CLONE_NEWNS,
+	}
 
 	j := &job{
 		cmd:     cmd,

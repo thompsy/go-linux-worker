@@ -9,11 +9,11 @@ protoc:
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
 		./lib/protobuf/api.proto
 
-# todo add linux and race back here
 .PHONY: build
 build: protoc
 	go fmt ./...
-	go build -race -o ./bin/server cmd/server/main.go
+	go mod vendor
+	GOOS=linux go build -race -o ./bin/server cmd/server/main.go
 	go build -race -o ./bin/client cmd/client/main.go
 
 .PHONY: install-tools
@@ -29,11 +29,11 @@ docker-build:
 
 .PHONY: docker-run
 docker-run:
-	docker run -p 8080:8080 worker-api-server:latest
+	docker run --privileged -p 8080:8080 worker-api-server:latest
 
 .PHONY: lint
 lint:
-	golangci-lint run $(LINT_TARGETS)
+	./bin/golangci-lint run $(LINT_TARGETS)
 
 certs:
 	./scripts/generate-mtls-certs.sh

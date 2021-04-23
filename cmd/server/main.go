@@ -10,6 +10,7 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
+	"github.com/thompsy/worker-api-service/lib/backend"
 	"github.com/thompsy/worker-api-service/lib/server"
 )
 
@@ -21,6 +22,13 @@ func main() {
 		Address:        ":8080",
 	}
 
+	// If run with the "exec" argument just run the passed command in an isolated environment and exit.
+	if len(os.Args) > 1 && os.Args[1] == "exec" {
+		backend.Exec(os.Args[2], os.Args[3:])
+		os.Exit(0)
+	}
+
+	// If no arguments are supplied simply start the server.
 	log.Infof("Starting server. pid: %d", os.Getpid())
 	s, err := server.NewServer(conf)
 	if err != nil {
