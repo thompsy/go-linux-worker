@@ -1,6 +1,6 @@
-# Worker-API Service
+# Go Linux Worker
 
-The Worker-API Service executes arbitrary Linux commands on behalf of clients. The design of the service can be seen in the [design document](DESIGN.md).
+The Go Linux Worker Service executes arbitrary Linux commands on behalf of clients. The design of the service can be seen in the [design document](DESIGN.md).
 
 Currently, the service consists of a library with functions to submit a job, query the status of a job, stop a job and fetch the logs from a job along with client and server implementations.
 
