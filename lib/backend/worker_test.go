@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"github.com/thompsy/worker-api-service/lib"
 	"io/ioutil"
+	"os"
 	"sync"
 	"testing"
 	"time"
@@ -25,6 +26,7 @@ const (
 // TestSubmitCommand verifies that the worker accepts a new command and that
 // it's status and logs can be fetched.
 func TestSubmitCommand(t *testing.T) {
+	skipCI(t)
 	w := NewWorker()
 	jobID, err := w.Submit(wcCommand)
 	require.Nil(t, err)
@@ -48,6 +50,7 @@ func TestSubmitCommand(t *testing.T) {
 // TestStopCommand verifies that the worker can stop a command and that the
 // status is reported correctly.
 func TestStopCommand(t *testing.T) {
+	skipCI(t)
 	w := NewWorker()
 	jobID, err := w.Submit(slowCommand)
 	require.Nil(t, err)
@@ -68,6 +71,7 @@ func TestStopCommand(t *testing.T) {
 
 // TestConcurrentRead verifies that readers can read correctly from a slow writer.
 func TestConcurrentLogs(t *testing.T) {
+	skipCI(t)
 	w := NewWorker()
 	jobID, err := w.Submit("./test-slow-command.sh")
 	require.Nil(t, err)
@@ -94,6 +98,7 @@ func TestConcurrentLogs(t *testing.T) {
 }
 
 func TestContextTimeout(t *testing.T) {
+	skipCI(t)
 	w := NewWorker()
 	jobID, err := w.Submit("./test-slow-command.sh")
 	require.Nil(t, err)
@@ -112,5 +117,13 @@ func TestContextTimeout(t *testing.T) {
 	case context.DeadlineExceeded:
 	case context.Canceled:
 		t.Fail()
+	}
+}
+
+// skipCI skips the current test if running in a CI environment. These tests
+// cannot be run in a non-privileged container.
+func skipCI(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
 	}
 }

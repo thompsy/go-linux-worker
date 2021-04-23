@@ -46,6 +46,7 @@ func setup() (*s.Server, error) {
 }
 
 func TestAuthentication(t *testing.T) {
+	skipCI(t)
 	tests := []struct {
 		desc       string
 		caCert     string
@@ -91,6 +92,7 @@ func TestAuthentication(t *testing.T) {
 }
 
 func TestAuthorization(t *testing.T) {
+	skipCI(t)
 	caCert := "../certs/ca.crt"
 
 	tests := []struct {
@@ -153,5 +155,13 @@ func TestAuthorization(t *testing.T) {
 			tt.assertErr(t, err)
 		},
 		)
+	}
+}
+
+// skipCI skips the current test if running in a CI environment. These tests
+// cannot be run in a non-privileged container.
+func skipCI(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
 	}
 }
