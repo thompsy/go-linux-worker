@@ -10,8 +10,6 @@ COPY --from=builder /go/src/app/bin/server .
 COPY --from=builder /go/src/app/certs/ca.crt ./certs/
 COPY --from=builder /go/src/app/certs/server.crt ./certs
 COPY --from=builder /go/src/app/certs/server.key ./certs
-# Setup the container filesystem
-ADD assets/alpine-minirootfs-3.13.2-x86_64.tar.gz /tmp/alpine/
-RUN mknod /tmp/alpine/dev/null c 1 3
+COPY assets/alpine-minirootfs-3.13.2-x86_64.tar.gz /tmp/alpine.tar.gz
 EXPOSE 8080/tcp
 CMD ["./server"]
