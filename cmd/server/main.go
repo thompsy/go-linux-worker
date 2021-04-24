@@ -24,7 +24,7 @@ func main() {
 
 	// If run with the "exec" argument just run the passed command in an isolated environment and exit.
 	if len(os.Args) > 1 && os.Args[1] == "exec" {
-		backend.Exec(os.Args[2], os.Args[3:])
+		backend.Exec(os.Args[2])
 		os.Exit(0)
 	}
 
