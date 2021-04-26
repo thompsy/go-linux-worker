@@ -31,4 +31,50 @@ The server can be run using the built Docker image by running:
 
 The client can be run using:
 
-    ./bin/client
+    # Submit a job
+    $ ./bin/client ls -lah /
+    Id of submitted job: 58403eaf-6691-4796-9b9c-cb60d9dc1763
+
+    # Get the status of the job
+    $ ./bin/client -s 58403eaf-6691-4796-9b9c-cb60d9dc1763
+    Status: COMPLETED
+    Exit code: 0
+
+    # Get the output from the job
+    $ ./bin/client -l 58403eaf-6691-4796-9b9c-cb60d9dc1763
+    total 0
+    drwxr-xr-x   19 root     root         380 Apr 26 19:48 .
+    drwxr-xr-x   19 root     root         380 Apr 26 19:48 ..
+    drwxr-xr-x    2 root     root        1.6K Apr 26 19:48 bin
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 dev
+    drwxr-xr-x   15 root     root         700 Apr 26 19:48 etc
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 home
+    drwxr-xr-x    7 root     root         280 Apr 26 19:48 lib
+    drwxr-xr-x    5 root     root         100 Apr 26 19:48 media
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 mnt
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 opt
+    dr-xr-xr-x  171 root     root           0 Apr 26 19:48 proc
+    drwx------    2 root     root          40 Feb 17 15:07 root
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 run
+    drwxr-xr-x    2 root     root        1.2K Apr 26 19:48 sbin
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 srv
+    drwxr-xr-x    2 root     root          40 Feb 17 15:07 sys
+    drwxrwxrwt    2 root     root          40 Feb 17 15:07 tmp
+    drwxr-xr-x    7 root     root         140 Apr 26 19:48 usr
+    drwxr-xr-x   12 root     root         260 Apr 26 19:48 var
+
+    # Submit a job
+    $ ./bin/client sleep 10m
+    Id of submitted job: fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+
+    # Get the status of the job
+    $ ./bin/client -s fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    Status: RUNNING
+
+    # Stop the job
+    $ ./bin/client -k fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    INFO[0000] fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f: killed
+
+    # Get the status of the job
+    $ ./bin/client -s fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    Status: STOPPED
