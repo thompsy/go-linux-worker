@@ -14,10 +14,11 @@ jobs:
         uses: actions/checkout@v2
       - name: Install dependencies
         run: make install-tools
-      - name: Build service
+      - name: Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: "1.15.8"
+      - name: Build service
         run: make build
 
 
