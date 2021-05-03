@@ -3,6 +3,7 @@ module github.com/thompsy/worker-api-service
 go 1.15
 
 require (
+	github.com/alecthomas/kong v0.2.16
 	github.com/golang/protobuf v1.5.2
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect

@@ -32,16 +32,16 @@ The server can be run using the built Docker image by running:
 The client can be run using:
 
     # Submit a job
-    $ ./bin/client ls -lah /
+    $ ./bin/client submit "ls -lah /"
     Id of submitted job: 58403eaf-6691-4796-9b9c-cb60d9dc1763
 
     # Get the status of the job
-    $ ./bin/client -s 58403eaf-6691-4796-9b9c-cb60d9dc1763
+    $ ./bin/client status 58403eaf-6691-4796-9b9c-cb60d9dc1763
     Status: COMPLETED
     Exit code: 0
 
     # Get the output from the job
-    $ ./bin/client -l 58403eaf-6691-4796-9b9c-cb60d9dc1763
+    $ ./bin/client logs 58403eaf-6691-4796-9b9c-cb60d9dc1763
     total 0
     drwxr-xr-x   19 root     root         380 Apr 26 19:48 .
     drwxr-xr-x   19 root     root         380 Apr 26 19:48 ..
@@ -64,17 +64,17 @@ The client can be run using:
     drwxr-xr-x   12 root     root         260 Apr 26 19:48 var
 
     # Submit a job
-    $ ./bin/client sleep 10m
+    $ ./bin/client sugmit "sleep 10m"
     Id of submitted job: fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
 
     # Get the status of the job
-    $ ./bin/client -s fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    $ ./bin/client status fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
     Status: RUNNING
 
     # Stop the job
-    $ ./bin/client -k fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    $ ./bin/client stop fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
     INFO[0000] fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f: killed
 
     # Get the status of the job
-    $ ./bin/client -s fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
+    $ ./bin/client status fc5aa11b-7f1c-4435-8c7b-aee3e0f09b7f
     Status: STOPPED
