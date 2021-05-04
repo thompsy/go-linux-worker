@@ -1,6 +1,9 @@
 # Go Linux Worker
 
-The Go Linux Worker Service executes arbitrary Linux commands on behalf of clients. Processes are isolated to a basic Apline Linux container using Linux `namespaces` and resource constraints are provided using `cgroups`. 
+[![Build Status](https://img.shields.io/github/workflow/status/thompsy/go-linux-worker/build/master)](https://github.com/thompsy/go-linux-worker/actions/workflows/build.yaml?query=branch%3Amaster)
+[![Go Report Card](https://goreportcard.com/badge/github.com/thompsy/go-linux-worker)](https://goreportcard.com/report/github.com/thompsy/go-linux-worker)
+
+The Go Linux Worker Service executes arbitrary Linux commands on behalf of clients. Processes are isolated to a basic Alpine Linux container using Linux `namespaces` and resource constraints are provided using `cgroups`. 
 
 The primary purpose of this project was to allow me to experiment with `namespaces` and `cgroups` to better understand how containers work under the hood.
 
