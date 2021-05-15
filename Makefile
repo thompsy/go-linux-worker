@@ -1,4 +1,6 @@
 LINT_TARGETS=./cmd/... ./lib/... ./testing/...
+UNIT_TESTS=./cmd/... ./lib/...
+INTEGRATION_TESTS=./testing/...
 
 .PHONY: all
 all: clean certs protoc build lint test
@@ -13,8 +15,8 @@ protoc:
 build: protoc
 	go fmt ./...
 	go mod vendor
-	GOOS=linux go build -race -o ./bin/server cmd/server/main.go
-	go build -race -o ./bin/client cmd/client/main.go
+	GOOS=linux go build -o ./bin/server cmd/server/main.go
+	go build -o ./bin/client cmd/client/main.go
 
 .PHONY: install-tools
 install-tools:
@@ -32,7 +34,10 @@ docker-build:
 
 .PHONY: docker-run
 docker-run:
-	docker run --privileged -p 8080:8080 worker-api-server:latest
+	docker run \
+		--privileged \
+		-p 8080:8080 \
+		worker-api-server:latest
 
 .PHONY: lint
 lint:
@@ -43,7 +48,15 @@ certs:
 
 .PHONY: test
 test: certs
-	go test -race -timeout 30s ./...
+	go test -v -timeout 30s ./...
+
+.PHONY: integ-test
+integ-test: certs
+	docker-compose build
+	docker-compose up \
+		--abort-on-container-exit \
+		--exit-code-from test
+	docker-compose down
 
 .PHONY: clean
 clean:

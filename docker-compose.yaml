@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: .
+      target: server
+    privileged: true
+    networks:
+      - common
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+
+  test:
+    build:
+      context: .
+      target: test
+    depends_on:
+      - server
+    privileged: true
+    networks:
+      - common
+
+networks:
+  common:
