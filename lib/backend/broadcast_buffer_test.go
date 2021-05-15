@@ -29,7 +29,8 @@ func TestRead(t *testing.T) {
 	require.Nil(t, err)
 	require.Equal(t, 10, n)
 
-	b.Close()
+	err = b.Close()
+	require.Nil(t, err)
 }
 
 // TestEOFDetection verifies that the buffer correctly identifies the EOF
@@ -80,7 +81,8 @@ func TestLateReadersGetAllData(t *testing.T) {
 	require.Nil(t, err)
 	_, err = b.Write([]byte(itemTwo))
 	require.Nil(t, err)
-	b.Close()
+	err = b.Close()
+	require.Nil(t, err)
 
 	r := b.NewReader(context.Background())
 	data, err := ioutil.ReadAll(r)
@@ -129,7 +131,8 @@ func TestConcurrentRead(t *testing.T) {
 		require.Nil(t, err)
 
 		time.Sleep(1 * time.Second)
-		b.Close()
+		err = b.Close()
+		require.Nil(t, err)
 	}()
 	wg.Wait()
 }
