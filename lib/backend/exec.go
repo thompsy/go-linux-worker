@@ -1,9 +1,9 @@
 package backend
 
 import (
-	"path/filepath"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 	"syscall" //TODO replace syscall usage with newer x/sys/unix versions
 
@@ -54,8 +54,8 @@ func Exec(command string) {
 
 	//TODO use bindata for this?
 	// Extract the Apline filesystem into the container filesystem
-	copy := exec.Command("tar", "-xf", "/tmp/alpine.tar.gz", "-C", tmpDir)
-	err = copy.Run()
+	copyCmd := exec.Command("tar", "-xf", "./assets/alpine-minirootfs-3.13.2-x86_64.tar.gz", "-C", tmpDir)
+	err = copyCmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
