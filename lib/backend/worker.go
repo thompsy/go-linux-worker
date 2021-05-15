@@ -18,6 +18,8 @@ import (
 type Worker struct {
 	jobs map[uuid.UUID]*job
 	sync.RWMutex
+
+	cgroup *CGroups
 }
 
 // A job is an exec.Cmd and its associated status and output reader.
@@ -38,9 +40,10 @@ type job struct {
 }
 
 // NewWorker returns a correctly initialized worker struct.
-func NewWorker() *Worker {
+func NewWorker(cgroups *CGroups) *Worker {
 	return &Worker{
-		jobs: make(map[uuid.UUID]*job),
+		jobs:   make(map[uuid.UUID]*job),
+		cgroup: cgroups,
 	}
 }
 
@@ -72,6 +75,12 @@ func (w *Worker) Submit(cmdLine string) (uuid.UUID, error) {
 		return uuid.Nil, err
 	}
 	j.status = lib.Status{Status: lib.RUNNING}
+	err = w.cgroup.AddPid(j.cmd.Process.Pid)
+	if err != nil {
+		log.WithError(err).Errorf("failed to add PID %d to cgroup", j.cmd.Process.Pid)
+		//TODO we should probably kill the job in this case and return the error
+	}
+
 	jobID := uuid.NewV4()
 	w.Lock()
 	w.jobs[jobID] = j

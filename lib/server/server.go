@@ -24,6 +24,7 @@ type Config struct {
 	ServerCertFile string
 	ServerKeyFile  string
 	Address        string
+	CGroups        *backend.CGroups
 }
 
 // Server is a gRPC server which implements the worker-api.
@@ -157,10 +158,16 @@ func NewServer(c Config) (*Server, error) {
 		grpc.ConnectionTimeout(timeout),
 	)
 
+	// Setup cgroups
+	err = c.CGroups.SetupCGroup()
+	if err != nil {
+		return nil, fmt.Errorf("unable to create cgroups: %w", err)
+	}
+
 	w := Server{
 		Config: &c,
 		grpc:   s,
-		worker: backend.NewWorker(),
+		worker: backend.NewWorker(c.CGroups),
 	}
 	pb.RegisterWorkerServiceServer(s, w)
 	return &w, nil

@@ -20,6 +20,20 @@ func main() {
 		ServerCertFile: "./certs/server.crt",
 		ServerKeyFile:  "./certs/server.key",
 		Address:        ":8080",
+		CGroups: &backend.CGroups{
+			Limits: map[string]map[string]string{
+				"cpu": {
+					"shares":        "100",
+					"cfs_quota_us":  "1000",
+					"cfs_period_us": "1000"},
+				"memory": {
+					"limit_in_bytes": "1000g"},
+				//NOTE: this does not work on Windows due to WSL issues
+				// "blkio": {
+				//  	"throttle.read_bps_device":  "8:0 10240",
+				//  	"throttle.write_bps_device": "8:0 10240"},
+			},
+		},
 	}
 
 	// If run with the "exec" argument just run the passed command in an isolated environment and exit.
