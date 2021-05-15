@@ -91,7 +91,7 @@ func TestLateReadersGetAllData(t *testing.T) {
 func TestContext(t *testing.T) {
 	b := newBroadcastBuffer()
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(1*time.Second))
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
 	r := b.NewReader(ctx)

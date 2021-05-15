@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/peer"
 )
 
-var jobs map[string]*string = map[string]*string{}
+var jobs = map[string]*string{}
 var lock sync.RWMutex
 
 //todo we could add a group() function
