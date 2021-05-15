@@ -27,7 +27,7 @@ type Context struct {
 
 // SubmitCmd represents the arguments needed when submitting a new command to the server.
 type SubmitCmd struct {
-	Command string `arg name:"command" help:"Command to run." type:"string"`
+	Command string `arg:"" name:"command" help:"Command to run." type:"string"`
 }
 
 // Run submits the command to the server.
@@ -43,7 +43,7 @@ func (s *SubmitCmd) Run(ctx *Context) error {
 
 // StopCmd represents the arguments needed to stop a running job.
 type StopCmd struct {
-	JobID string `arg name:"jobID" help:"JobID to stop." type:"string"`
+	JobID string `arg:"" name:"jobID" help:"JobID to stop." type:"string"`
 }
 
 // Run stops the job identified by the given JobID.
@@ -58,7 +58,7 @@ func (s *StopCmd) Run(ctx *Context) error {
 
 // LogsCmd represents the arguments needed to fetch the logs for a job.
 type LogsCmd struct {
-	JobID string `arg name:"jobID" help:"JobID to stop." type:"string"`
+	JobID string `arg:"" name:"jobID" help:"JobID to stop." type:"string"`
 }
 
 // Run fetches the logs identified by the given JobID.
@@ -78,7 +78,7 @@ func (l *LogsCmd) Run(ctx *Context) error {
 
 // StatusCmd represents the arguments needed to query the status of a job.
 type StatusCmd struct {
-	JobID string `arg name:"jobID" help:"JobID to stop." type:"string"`
+	JobID string `arg:"" name:"jobID" help:"JobID to stop." type:"string"`
 }
 
 // Run gets the status of the job identified by the given JobID.
@@ -98,10 +98,10 @@ func (s *StatusCmd) Run(ctx *Context) error {
 
 // cli represents the available command line options.
 var cli struct {
-	Submit SubmitCmd `cmd help:"Submit command."`
-	Stop   StopCmd   `cmd help:"Stop the given JobID."`
-	Status StatusCmd `cmd help:"Get the status of the given JobID."`
-	Logs   LogsCmd   `cmd help:"Get the logs for the given JobID."`
+	Submit SubmitCmd `cmd:"" help:"Submit command."`
+	Stop   StopCmd   `cmd:"" help:"Stop the given JobID."`
+	Status StatusCmd `cmd:"" help:"Get the status of the given JobID."`
+	Logs   LogsCmd   `cmd:"" help:"Get the logs for the given JobID."`
 
 	Profile string `short:"p" help:"TLS profile to connect with (a|b|admin)." default:"a"`
 	Address string `short:"h" help:"Address of the server." default:":8080"`
