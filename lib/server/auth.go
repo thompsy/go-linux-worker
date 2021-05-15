@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/thompsy/worker-api-service/lib"
-	pb "github.com/thompsy/worker-api-service/lib/protobuf"
+	"github.com/thompsy/go-linux-worker/lib"
+	pb "github.com/thompsy/go-linux-worker/lib/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/peer"

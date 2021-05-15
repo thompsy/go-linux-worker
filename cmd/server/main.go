@@ -10,8 +10,8 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/thompsy/worker-api-service/lib/backend"
-	"github.com/thompsy/worker-api-service/lib/server"
+	"github.com/thompsy/go-linux-worker/lib/backend"
+	"github.com/thompsy/go-linux-worker/lib/server"
 )
 
 func main() {

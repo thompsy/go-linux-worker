@@ -10,7 +10,7 @@ import (
 
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
-	"github.com/thompsy/worker-api-service/lib"
+	"github.com/thompsy/go-linux-worker/lib"
 )
 
 // A Worker is a map guarded by a RWMutex which contains an entry for each

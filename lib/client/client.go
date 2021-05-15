@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	pb "github.com/thompsy/worker-api-service/lib/protobuf"
+	pb "github.com/thompsy/go-linux-worker/lib/protobuf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"

@@ -10,8 +10,8 @@ import (
 
 	"github.com/alecthomas/kong"
 	log "github.com/sirupsen/logrus"
-	c "github.com/thompsy/worker-api-service/lib/client"
-	"github.com/thompsy/worker-api-service/lib/protobuf"
+	c "github.com/thompsy/go-linux-worker/lib/client"
+	"github.com/thompsy/go-linux-worker/lib/protobuf"
 )
 
 // NOTE: these constants would ideally be pulled out to a config file or passed in

@@ -12,8 +12,8 @@ import (
 
 	uuid "github.com/satori/go.uuid"
 	log "github.com/sirupsen/logrus"
-	"github.com/thompsy/worker-api-service/lib/backend"
-	pb "github.com/thompsy/worker-api-service/lib/protobuf"
+	"github.com/thompsy/go-linux-worker/lib/backend"
+	pb "github.com/thompsy/go-linux-worker/lib/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
